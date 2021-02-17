@@ -24,9 +24,10 @@
           text-color="#fff"
           active-text-color="#ffd04b"
           unique-opened
+          :router="true"
         >
           <el-submenu
-            :index="item.id+''"
+            :index="item.path"
             v-for="item in menulist"
             :key="item.id"
           >
@@ -35,7 +36,7 @@
               <span>{{item.authName}}</span>
             </template>
             <el-menu-item
-              :index="subItem.id+''"
+              :index="subItem.path"
               v-for="subItem in item.children"
               :key="subItem.id"
             >
@@ -46,7 +47,9 @@
         </el-menu>
       </el-aside>
       <!-- 右侧内容区 -->
-      <el-main>Main</el-main>
+      <el-main>
+        <router-view></router-view>
+      </el-main>
     </el-container>
   </el-container>
 </template>
