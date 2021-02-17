@@ -23,23 +23,26 @@
           background-color="#545c64"
           text-color="#fff"
           active-text-color="#ffd04b"
+          unique-opened
         >
-          <el-menu-item index="1">
-            <i class="el-icon-menu"></i>
-            <span slot="title">导航1</span>
-          </el-menu-item>
-          <el-menu-item index="2">
-            <i class="el-icon-menu"></i>
-            <span slot="title">导航2</span>
-          </el-menu-item>
-          <el-menu-item index="3">
-            <i class="el-icon-menu"></i>
-            <span slot="title">导航3</span>
-          </el-menu-item>
-          <el-menu-item index="4">
-            <i class="el-icon-menu"></i>
-            <span slot="title">导航4</span>
-          </el-menu-item>
+          <el-submenu
+            :index="item.id+''"
+            v-for="item in menulist"
+            :key="item.id"
+          >
+            <template slot="title">
+              <i :class="iconsObj[item.id]"></i>
+              <span>{{item.authName}}</span>
+            </template>
+            <el-menu-item
+              :index="subItem.id+''"
+              v-for="subItem in item.children"
+              :key="subItem.id"
+            >
+              <i class="el-icon-menu"></i>
+              <span>{{subItem.authName}}</span>
+            </el-menu-item>
+          </el-submenu>
         </el-menu>
       </el-aside>
       <!-- 右侧内容区 -->
@@ -50,11 +53,33 @@
 
 <script>
 export default {
+  data () {
+    return {
+      menulist: [], // 菜单数据
+      iconsObj: {
+        125: 'el-icon-s-custom',
+        103: 'el-icon-s-operation',
+        101: 'el-icon-goods',
+        102: 'el-icon-s-order',
+        145: 'el-icon-s-data'
+      }
+    }
+  },
+  created () {
+    this.getMenuList()
+  },
   methods: {
     logout () {
       // 销毁本地的token
       window.sessionStorage.clear()
       this.$router.push('login')
+    },
+    // 获取菜单列表
+    async getMenuList () {
+      // get menus
+      const { data: res } = await this.$http.get('menus')
+      if (res.meta.status !== 200) return this.$message.error('获取菜单列表失败')
+      this.menulist = res.data
     }
   }
 }
@@ -90,6 +115,9 @@ export default {
 }
 .el-aside {
   background-color: #909399;
+  .el-menu {
+    border-right: none;
+  }
 }
 .el-main {
   background-color: #f2f6fc;
