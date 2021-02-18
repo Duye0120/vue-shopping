@@ -1,5 +1,7 @@
 import Vue from 'vue'
-import { Button, Form, FormItem, Input, Message, Container, Header, Main, Aside, Menu, Submenu, MenuItem, MenuItemGroup, Breadcrumb, BreadcrumbItem, Card } from 'element-ui'
+import {
+  Button, Table, TableColumn, Form, FormItem, Input, Message, Container, Header, Main, Aside, Menu, Submenu, MenuItem, MenuItemGroup, Breadcrumb, BreadcrumbItem, Card, Row, Col
+} from 'element-ui'
 
 Vue.use(Button)
 Vue.use(Form)
@@ -16,4 +18,8 @@ Vue.use(Submenu)
 Vue.use(Breadcrumb)
 Vue.use(BreadcrumbItem)
 Vue.use(Card)
+Vue.use(Row)
+Vue.use(Col)
+Vue.use(Table)
+Vue.use(TableColumn)
 Vue.prototype.$message = Message
