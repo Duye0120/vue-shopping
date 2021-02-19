@@ -24,6 +24,7 @@
           <el-button type="primary">添加用户</el-button>
         </el-col>
       </el-row>
+      <!-- 用户列表区域 -->
       <el-table
         :data="userlist"
         style="width: 100%"
@@ -72,33 +73,44 @@
               :enterable="false"
             >
               <el-button
-              type="primary"
-              icon="el-icon-edit"
-            ></el-button>
+                type="primary"
+                icon="el-icon-edit"
+              ></el-button>
             </el-tooltip>
             <el-tooltip
               content="删除"
               placement="top"
               :enterable="false"
             >
-            <el-button
-              type="danger"
-              icon="el-icon-delete"
-            ></el-button>
+              <el-button
+                type="danger"
+                icon="el-icon-delete"
+              ></el-button>
             </el-tooltip>
             <el-tooltip
               content="分配角色"
               placement="top"
               :enterable="false"
             >
-            <el-button
-              type="primary"
-              icon="el-icon-setting"
-            ></el-button>
+              <el-button
+                type="primary"
+                icon="el-icon-setting"
+              ></el-button>
             </el-tooltip>
           </template>
         </el-table-column>
       </el-table>
+      <!-- 分页区域 -->
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="1"
+        :page-sizes="[5, 10, 15, 20]"
+        :page-size="queryInfo.pagesize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+      >
+      </el-pagination>
     </el-card>
   </div>
 </template>
@@ -110,8 +122,8 @@ export default {
       // 获取用户列表定义的参数对象
       queryInfo: {
         query: '',
-        pagenum: 1,
-        pagesize: 2
+        pagenum: 1, // 当前页码
+        pagesize: 5 // 每页显示的条目多少
       },
       userlist: [],
       total: 0
@@ -126,6 +138,15 @@ export default {
       if (res.meta.status !== 200) return this.$message.error('获取用户列表失败')
       this.userlist = res.data.users
       this.total = res.data.total
+    },
+    handleSizeChange (newSize) {
+      this.queryInfo.pagesize = newSize
+      this.getUserList()
+    },
+    // 监听页码值
+    handleCurrentChange (newPage) {
+      this.queryInfo.pagenum = newPage
+      this.getUserList()
     }
   }
 }
@@ -135,7 +156,7 @@ export default {
   margin-bottom: 30px;
   font-size: 12px;
 }
-.el-table{
-  margin-top: 20px;
+.el-table {
+  margin: 20px 10px;
 }
 </style>
