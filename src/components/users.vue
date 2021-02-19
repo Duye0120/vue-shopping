@@ -25,9 +25,10 @@
         </el-col>
       </el-row>
       <el-table
-        stripe
+        :data="userlist"
         style="width: 100%"
       >
+        <el-table-column type="index"></el-table-column>
         <el-table-column
           prop="username"
           label="姓名"
@@ -36,19 +37,66 @@
         </el-table-column>
         <el-table-column
           prop="id"
-          label="姓名"
+          label="id"
           width="180"
         >
         </el-table-column>
         <el-table-column
           prop="email"
-          label="电子邮箱"
+          label="邮箱"
         >
         </el-table-column>
         <el-table-column
           prop="role_name"
           label="角色"
         >
+        </el-table-column>
+        <el-table-column
+          prop="mobile"
+          label="电话"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="mg_state"
+          label="状态"
+        >
+          <template slot-scope="scope">
+            <el-switch v-model="scope.row.mg_state"></el-switch>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作">
+          <template slot-scope="">
+            <el-tooltip
+              content="编辑"
+              placement="top"
+              :enterable="false"
+            >
+              <el-button
+              type="primary"
+              icon="el-icon-edit"
+            ></el-button>
+            </el-tooltip>
+            <el-tooltip
+              content="删除"
+              placement="top"
+              :enterable="false"
+            >
+            <el-button
+              type="danger"
+              icon="el-icon-delete"
+            ></el-button>
+            </el-tooltip>
+            <el-tooltip
+              content="分配角色"
+              placement="top"
+              :enterable="false"
+            >
+            <el-button
+              type="primary"
+              icon="el-icon-setting"
+            ></el-button>
+            </el-tooltip>
+          </template>
         </el-table-column>
       </el-table>
     </el-card>
@@ -65,7 +113,7 @@ export default {
         pagenum: 1,
         pagesize: 2
       },
-      userlist: {},
+      userlist: [],
       total: 0
     }
   },
@@ -84,7 +132,10 @@ export default {
 </script>
 <style lang="less" scoped>
 .el-breadcrumb {
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   font-size: 12px;
+}
+.el-table{
+  margin-top: 20px;
 }
 </style>
